@@ -1,0 +1,48 @@
+<site>
+	<Users>
+		<User name="Weston" userID="ID001" email="weston@weston.com" password="w3st0n"/>
+		<User name="Aaron" userID="ID002" email="weston@aaron.com" password="ball3rbo1z">
+			<Day date="2015-10-18">
+				<Activity type="Intervals" Distance="12" Effort="11" Comments="I had no fun.">
+					<Workout>
+						<Warmup Time="30" Distance="4"/>
+						<Interval Time="5:02" Rest="3:00" Goal="5:00" Distance="1"/>
+						<Interval Time="5:01" Rest="3:00" Goal="5:00" Distance="1"/>
+						<Interval Time="5:03" Rest="3:00" Goal="5:00" Distance="1"/>
+						<Interval Time="4:27" Rest="3:00" Goal="5:00" Distance="1"/>
+						<Cooldown Time="30" Distance="4"/>
+					</Workout>
+					<Shoes miles="46" name="Pegs" ExpirationMiles="500"/>
+					<Conditions Weather="Sunny" Temperature="76" Terrain="Trail" Location="Buehler"/>
+				</Activity>
+				<Vitals RestHR="55" Sleep="8" Weight="122" BodyFat="-1" Injury="none"/>
+			</Day>
+			<Day date="2015-10-19">
+				<Activity type="Normal Run" Time="27:30" Distance="10" Effort="3" Comments="I had fun.">
+					<Shoes miles="58" name="Pegs" ExpirationMiles="500"/>
+					<Conditions Weather="Sunny" Temperature="78" Terrain="Gravel" Location="Duke Forest"/>
+				</Activity>
+				<Vitals RestHR="56" Sleep="8" Weight="120" BodyFat="-2" Injury="none"/>
+			</Day>
+			<Day date="2015-10-20">
+				<Activity type="Race" Time="27:30" Distance="10" Effort="3" Comments="I had fun.">
+					<Race Time="15:30" Distance="3.12" Place="1" Name="Turkey Trot">
+						<Warmup Time="22" Distance="3"/>
+						<Cooldown Time="30" Distance="4"/>
+					</Race>
+					<Shoes miles="68" name="Pegs" ExpirationMiles="500"/>
+					<Conditions Weather="Sunny" Temperature="78" Terrain="Gravel" Location="Duke Forest"/>
+				</Activity>
+				<Vitals RestHR="56" Sleep="8" Weight="120" BodyFat="-2" Injury="none"/>
+			</Day>
+		</User>
+	</Users>
+	<Teams>
+		<Team Name="Blue Devils">
+			<Member userID="ID001"/>
+			<Member userID="ID002"/>
+		</Team>
+		<Team Name="UNC"/>
+	</Team>
+
+</site>
