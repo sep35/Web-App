@@ -1,0 +1,66 @@
+<!ELEMENT Site (Users, Teams)>
+<!ELEMENT Users (User*)>
+<!ELEMENT Teams (Team*)>
+
+<!ELEMENT User (Day*)>
+<!ATTLIST User name CDATA #REQUIRED>
+<!ATTLIST User userID ID>
+<!ATTLIST User email CDATA #REQUIRED>
+<!ATTLIST User password CDATA #REQUIRED>
+
+<!ELEMENT Day (Activity*, Vitals?)>
+<!ATTLIST Day Date #REQUIRED>
+
+<!ELEMENT Activity ((Workout|Race)?, Shoes?, Conditions?)>
+<!ATTLIST Activity Type CDATA "Normal Run">
+<!ATTLIST Activity Time CDATA>
+<!ATTLIST Activity Distance CDATA>
+<!ATTLIST Activity Effort CDATA>
+<!ATTLIST Activity Comments CDATA>
+
+<!ELEMENT Workout (Warmup?, Interval*, Cooldown?)>
+
+<!ELEMENT Race (Warmup?, Cooldown?)>
+<!ATTLIST Race Time CDATA>
+<!ATTLIST Race Distance CDATA>
+<!ATTLIST Race Place CDATA>
+<!ATTLIST Race Name CDATA>
+
+<!ELEMENT Shoes EMPTY>
+<!ATTLIST Shoes Miles CDATA>
+<!ATTLIST Shoes Name CDATA>
+<!ATTLIST Shoes ExpirationMiles CDATA>
+
+<!ELEMENT Conditions EMPTY>
+<!ATTLIST Conditions Weather CDATA>
+<!ATTLIST Conditions Temperature CDATA>
+<!ATTLIST Conditions Terrain CDATA>
+<!ATTLIST Conditions Location CDATA>
+
+<!ELEMENT Warmup EMPTY>
+<!ATTLIST Warmup Time CDATA>
+<!ATTLIST Warmup Distance CDATA>
+
+<!ELEMENT Cooldown EMPTY>
+<!ATTLIST Cooldown Time CDATA>
+<!ATTLIST Cooldown Distance CDATA>
+
+<!ELEMENT Interval EMPTY>
+<!ATTLIST Interval Time CDATA>
+<!ATTLIST Interval Rest CDATA>
+<!ATTLIST Interval Goal CDATA>
+<!ATTLIST Interval Distance CDATA>
+
+<!ELEMENT Vitals EMPTY>
+<!ATTLIST Vitals RestHR CDATA>
+<!ATTLIST Vitals Sleep CDATA>
+<!ATTLIST Vitals Weight CDATA>
+<!ATTLIST Vitals BodyFat CDATA>
+<!ATTLIST Vitals Injury CDATA "none">
+
+<!ELEMENT Team (Member*)>
+<!ATTLIST Team Name CDATA #REQUIRED>
+
+<!ELEMENT Member EMPTY>
+<!ATTLIST Member userID IDREF>
+
