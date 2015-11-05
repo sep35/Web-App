@@ -9,4 +9,5 @@ Weston Carvalho
 - Worked on the sql database (coding/testing)
 - Worked off of Aaron's start on Django
 Steven Pierre
-- 
+- Worked on building the website
+- Wrote scripts for the create/load/destroy sample data sets
