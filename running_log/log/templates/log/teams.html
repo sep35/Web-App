@@ -1,0 +1,13 @@
+{% extends 'log/base.html' %}
+
+
+{% block body %}
+    {% for team in teams %}
+        <div class="email">
+            <div class="user">
+                <p>team_id: {{ team.id }}</p>
+            </div>
+            <p>{{ team.name }}|linebreak</p>
+        </div>
+    {% endfor %}
+{% endblock %}

@@ -1,6 +1,8 @@
 # forms
+from django.contrib.auth.models import User
 from .models import Activity, AuthUser
 from django import forms
+import datetime
 
 
 class ActivityForm(forms.ModelForm):
@@ -14,8 +16,8 @@ class UserForm(forms.ModelForm):
     password2 = forms.CharField(label="re-enter password",widget=forms.PasswordInput())
 
     class Meta:
-        model = AuthUser
-        fields = ('username','first_name','last_name','email','date_joined')
+        model = User
+        fields = ('username','first_name','last_name','email')
 
     def clean_password2(self):
         # Check that the two password entries match
@@ -27,12 +29,12 @@ class UserForm(forms.ModelForm):
         return password2
 
     def save(self, commit=True):
-
-        user = super(UserForm, self).save(commit=False)
-        user.is_superuser = False
+        user = super(UserForm, self).save(commit = False)
         user.is_staff = False
         user.is_active = True
+        user.is_superuser = False
         user.set_password(self.clean_password2())
+        user.date_joined = datetime.datetime.utcnow()
         if commit:
             user.save()
         return user

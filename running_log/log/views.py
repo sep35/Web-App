@@ -3,11 +3,17 @@
 from django.shortcuts import render,render_to_response
 from django.http import HttpResponse
 from .forms import ActivityForm, UserForm
-from .models import Users, Activity
+from .models import Users, Activity, Team
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
 from django.contrib.auth import logout
+
+@login_required(login_url="/login/")
+def teams(request):
+    teams = Team.objects.all()
+    return render(request, 'log/teams.html', {'teams': teams})
+
 
 def logout_view(request):
     logout(request)
