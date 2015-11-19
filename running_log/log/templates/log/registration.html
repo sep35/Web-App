@@ -1,0 +1,22 @@
+{% extends "log/base.html" %}
+
+{% block body %}
+        <h1>Register with Logs</h1>
+
+        {% if registered %}
+        <a href="/activity/new">Thank you,{{ user.get_username }}, for registering!</a><br />
+        {% else %}
+        <strong></strong><br />
+
+        <form id="post-form" method="post" action="/register/"
+                enctype="multipart/form-data">
+
+            {% csrf_token %}
+
+            {{ user_form.as_p }}
+
+            <!-- Provide a button to click to submit the form. -->
+            <input type="submit" name="submit" value="Register" />
+        </form>
+        {% endif %}
+{% endblock %}

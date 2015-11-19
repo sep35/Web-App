@@ -1,0 +1,16 @@
+{% extends 'log/base.html' %}
+{% block head %}
+{% endblock %}
+{% block body %}
+    {% for activity in activities %}
+        <div class="user">
+            <div class="id">
+                <p>name: {{ activity.id }}</p>
+            </div>
+            <h1><a href="">{{ activity.date }}</a></h1>
+            <p>{{ activity.activity_type|linebreaks }}</p>
+            <p>{{ activity.distance|linebreaks }}</p>
+            <p>{{ activity.time|linebreaks }}</p>
+        </div>
+    {% endfor %}
+{% endblock %}
