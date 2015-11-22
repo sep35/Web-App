@@ -3,17 +3,27 @@
 from django.shortcuts import render,render_to_response
 from django.http import HttpResponse
 from .forms import ActivityForm, UserForm
-from .models import Users, Activity, Team
+from .models import Users, Activity, Team, AuthUser
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
 from django.contrib.auth import logout
+
+
+#### TEAM VIEWS ####
 
 @login_required(login_url="/login/")
 def teams(request):
     teams = Team.objects.all()
     return render(request, 'log/teams.html', {'teams': teams})
 
+
+
+#### REGISTRATION + SETUP VIEWS ####
+
+def home_page(request):
+    activities = Activity.objects.all()
+    return render(request, 'log/home_page.html', {'activities': activities})
 
 def logout_view(request):
     logout(request)
@@ -38,7 +48,6 @@ def register(request):
 
     else:
         user_form = UserForm()
-
     # Render the template depending on the context.
     return render_to_response(
             'log/registration.html',
@@ -46,9 +55,16 @@ def register(request):
             context)
 
 
-def home_page(request):
-    activities = Activity.objects.all()
-    return render(request, 'log/home_page.html', {'activities': activities})
+#### USER VIEWS ####
+
+@login_required(login_url="/login/")
+def profile(request):
+    context = RequestContext(request)
+
+    u = AuthUser.objects.get(username=request.user.username)
+    activities = Activity.objects.filter(user_id=request.user.id)
+
+    return render_to_response('log/profile.html', {'u': u, 'activities': activities}, context)
 
 def activity_list(request):
     users = Users.objects.all()
@@ -66,7 +82,3 @@ def new_activity(request):
     else:
         form = ActivityForm()
     return render(request, 'log/activity_edit.html', {'form': form})
-
-def index(request):
-    output = ', '.join([p.name for p in Users.objects.all()])
-    return HttpResponse(output)

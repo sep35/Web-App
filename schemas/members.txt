@@ -1,0 +1,13 @@
+Members
+Aaron Liberatore
+- Wrote the E/R diagram
+- Wrote up the progress report
+- Began work on building a basic website using Django
+- Worked on the sql database (coding/testing)
+Weston Carvalho
+- Designed the relational schema
+- Worked on the sql database (coding/testing)
+- Worked off of Aaron's start on Django
+Steven Pierre
+- Worked on building the website
+- Wrote scripts for the create/load/destroy sample data sets

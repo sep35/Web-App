@@ -85,7 +85,7 @@ class AuthUser(models.Model):
         return self.last_name
     def __str__(self):
         return self.email
-        
+
     class Meta:
         managed = False
         db_table = 'auth_user'

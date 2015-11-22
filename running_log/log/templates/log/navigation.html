@@ -1,0 +1,18 @@
+{% load base_extras %}
+
+<div id="topbar">
+    <div class="navbar">
+        <div class="navbar-side navbar-left"></div>
+        <div class="navbar-content">
+        {% if user.is_authenticated %}
+            <a href="/profile/">Profile</a>
+            <a href="/activity/new/">Log</a>
+            <a href="/logout/">Logout</a>
+        {% else %}
+            <a href="/login/">Login</a> or
+            <a href="/register/"><b>Sign up</b></a>
+        {% endif %}
+        </div>
+        <div class="navbar-side navbar-right"></div>
+    </div>
+</div>

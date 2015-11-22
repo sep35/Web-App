@@ -1,0 +1,17 @@
+{% extends "log/base.html" %}
+
+{% block head %}
+        <h1> Current Profile of: {{ user.get_username}}</h1>
+{% endblock %}
+{% block body %}
+      <div class="user">
+          <div class="id">
+              <h3> General Information: </h3>
+              <p>First Name: {{user.first_name }}</p>
+              <p>Last Name: {{user.last_name }}</p>
+              <p>Email: {{user.email }} </p>
+              <p>Member Since: {{user.date_joined }}</p>
+              <p>Last Login: {{user.last_login }}</p>
+          </div>
+      </div>
+{% endblock %}
