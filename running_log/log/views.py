@@ -1,6 +1,6 @@
 # Create your views here.
 
-from django.shortcuts import render,render_to_response
+from django.shortcuts import render,render_to_response,redirect
 from django.http import HttpResponse
 from .forms import ActivityForm, UserForm
 from .models import Users, Activity, Team, AuthUser
@@ -8,6 +8,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
 from django.contrib.auth import logout
+from django.contrib.auth.models import User
 
 
 #### TEAM VIEWS ####
@@ -66,9 +67,10 @@ def profile(request):
 
     return render_to_response('log/profile.html', {'u': u, 'activities': activities}, context)
 
-def activity_list(request):
-    users = Users.objects.all()
-    return render(request, 'log/activity_list.html', {'users': users})
+@login_required(login_url="/login/")
+def log(request):
+    activities = Activity.objects.filter(user_id=request.user.id)
+    return render(request, 'log/activity_list.html', {'activities': activities})
 
 @login_required(login_url="/login/")
 def new_activity(request):
@@ -76,9 +78,10 @@ def new_activity(request):
         form = ActivityForm(request.POST)
         if form.is_valid():
             post = form.save(commit=False)
-            post.name = request.user
+            u = User.objects.get(id=request.user.id)
+            post.user = u
             post.save()
-            return redirect('blog.views.post_detail', pk=post.pk)
+            return redirect('/log/', pk=post.pk)
     else:
         form = ActivityForm()
     return render(request, 'log/activity_edit.html', {'form': form})

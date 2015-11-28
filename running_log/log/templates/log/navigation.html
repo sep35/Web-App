@@ -6,7 +6,8 @@
         <div class="navbar-content">
         {% if user.is_authenticated %}
             <a href="/profile/">Profile</a>
-            <a href="/activity/new/">Log</a>
+            <a href="/log/">Log</a>
+            <a href="/activity/new/">Add Activity</a>
             <a href="/logout/">Logout</a>
         {% else %}
             <a href="/login/">Login</a> or

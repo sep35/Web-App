@@ -11,6 +11,7 @@ urlpatterns = [
 
     #### User Log ####
     url(r'^profile/$', views.profile, name='profile'),
+    url(r'^log/$', views.log, name='log'),
     url(r'^activity/new/$', views.new_activity, name='new_activity'),
 
     #### Team setup & logs ####

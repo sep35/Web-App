@@ -4,7 +4,7 @@
         <h1>Register with Logs</h1>
 
         {% if registered %}
-        <a href="/activity/new">Thank you, {{ user.get_username }}, for registering!</a><br />
+        <a href="/activity/new">Thank you, {{ request.user.get_username }}, for registering!</a><br />
         {% else %}
         <strong></strong><br />
 

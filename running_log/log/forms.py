@@ -1,6 +1,10 @@
 # forms
 from django.contrib.auth.models import User
 from .models import Activity, AuthUser
+from django.template import RequestContext
+from django.shortcuts import render,render_to_response
+from django.contrib.auth.models import User
+from django.http import HttpResponse
 from django import forms
 import datetime
 
@@ -9,7 +13,12 @@ class ActivityForm(forms.ModelForm):
     class Meta:
         model = Activity
         fields = ('activity_type','distance','time','shoe','conditions','location','comments')
-
+    def save(self, commit=True):
+        Activity = super(ActivityForm, self).save(commit = False)
+        Activity.date = datetime.datetime.utcnow()
+        if commit:
+            Activity.save()
+        return Activity
 
 class UserForm(forms.ModelForm):
     password1 = forms.CharField(label="password",widget=forms.PasswordInput())

@@ -8,14 +8,14 @@
 # Also note: You'll have to insert the output of 'django-admin sqlcustom [app_label]'
 # into your database.
 from __future__ import unicode_literals
-
+from django.contrib.auth.models import User
 from django.db import models
 
 
 class Activity(models.Model):
-    activity_id = models.IntegerField(primary_key=True)
+    #activity_id = models.AutoField(primary_key=True)
     date = models.DateField()
-    user = models.ForeignKey('Users', blank=True, null=True)
+    user = models.ForeignKey(User)
     distance = models.IntegerField(blank=True, null=True)
     time = models.IntegerField(blank=True, null=True)
     shoe = models.ForeignKey('Shoe', blank=True, null=True)
@@ -168,7 +168,7 @@ class LogUser(models.Model):
 
 
 class Races(models.Model):
-    activity_id = models.ForeignKey(Activity, unique=True, blank=True, null=True)
+    activity_id = models.ForeignKey(Activity, blank=True, null=True)
     name = models.CharField(max_length=256, blank=True, null=True)
     distance = models.IntegerField(blank=True, null=True)
     time = models.IntegerField(blank=True, null=True)
@@ -226,7 +226,7 @@ class Users(models.Model):
 
 
 class Workout(models.Model):
-    activity_id = models.ForeignKey(Activity)
+    activity_id = models.ForeignKey(Activity,default=0)
     interval_num = models.IntegerField()
     distance = models.IntegerField(blank=True, null=True)
     actual_time = models.CharField(max_length=256, blank=True, null=True)

@@ -8,10 +8,9 @@
     <h3>
       {% for activity in activities %}
           <div class="user">
-              <div class="id">
-                  <p>name: {{ activity.id }}</p>
+              <div class="content">
+                  <p>date: {{ activity.date }}</p>
               </div>
-              <h1><a href="">{{ activity.date }}</a></h1>
               <p>{{ activity.activity_type|linebreaks }}</p>
               <p>{{ activity.distance|linebreaks }}</p>
               <p>{{ activity.time|linebreaks }}</p>

@@ -1,17 +1,17 @@
 CREATE TABLE Users
-( user_id INTEGER PRIMARY KEY,
+( id INTEGER PRIMARY KEY,
   name VARCHAR(256) NOT NULL,
   email VARCHAR(256) NOT NULL UNIQUE,
   password VARCHAR(256) NOT NULL
 );
- CREATE TABLE Team_Member
- ( user_id INTEGER REFERENCES Users (user_id),
-   team_id INTEGER REFERENCES Team (team_id),
-   UNIQUE (user_id,team_id)
- );
  CREATE TABLE Team
 ( id INTEGER NOT NULL PRIMARY KEY,
   name VARCHAR(256) NOT NULL UNIQUE
+);
+CREATE TABLE Team_Member
+( user_id INTEGER REFERENCES Users (id),
+  team_id INTEGER REFERENCES Team (id),
+  UNIQUE (user_id,team_id)
 );
 CREATE TABLE Shoe
 ( shoe_id INTEGER PRIMARY KEY,
@@ -20,9 +20,9 @@ CREATE TABLE Shoe
   expiration_mileage INTEGER DEFAULT 500
 );
 CREATE TABLE Activity
-( activity_id Integer NOT NULL PRIMARY KEY,
+( id serial NOT NULL PRIMARY KEY,
   date DATE NOT NULL,
-  user_id INTEGER REFERENCES Users (user_id),
+  user_id INTEGER REFERENCES Users (id),
   distance INTEGER,
   time INTEGER,
   shoe_id INTEGER REFERENCES Shoe,
@@ -32,7 +32,7 @@ CREATE TABLE Activity
   comments VARCHAR(512)
 );
 CREATE TABLE RACES
-( activity_id INTEGER REFERENCES Activity (activity_id),
+( activity_id INTEGER REFERENCES Activity (id),
   UNIQUE (activity_id),
   name VARCHAR(256),
   distance INTEGER,
@@ -40,7 +40,7 @@ CREATE TABLE RACES
   place VARCHAR(256)
 );
 CREATE TABLE WORKOUT
-( activity_id INTEGER REFERENCES Activity (activity_id),
+( activity_id INTEGER REFERENCES Activity (id),
   interval_num INTEGER NOT NULL,
   distance INTEGER,
   actual_time VARCHAR(256),
@@ -61,7 +61,10 @@ CREATE TRIGGER UPDATE_SHOE
   EXECUTE PROCEDURE update_s();
 
 INSERT INTO Users VALUES(1,'aaron', 'a@aaron.com', 'hiuadhf');
-INSERT INTO Users VALUES(2,'Weston', 'w@aaron.com', 'highds');
+INSERT INTO Users VALUES(2,'wesston', 'w@aaron.com', 'highds');
+INSERT INTO Users VALUES(3,'dylan', 'd@dylan.com', 'hiuadhf');
+INSERT INTO Users VALUES(4,'alec', 'w@alec.com', 'highds');
+INSERT INTO Users VALUES(5,'shane', 's@shane.com', 'highds');
 INSERT INTO Shoe Values(1,'Pegs','0');
 
 SELECT * FROM SHOE;
