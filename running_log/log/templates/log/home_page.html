@@ -1,4 +1,41 @@
-{% extends "log/base.html" %}
-{% block head %}
-  <title>Running2Win | Login</title>
-{% endblock %}
+{% load staticfiles %}
+
+<html>
+  <style>
+  #rcorners1 {
+    border-radius: 15px 50px 15px;
+    background: #73AD21;
+    padding: 20px;
+    height: 200px;
+    width: 400px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-top: -100px;
+    margin-left: -200px;
+  }
+  .s {
+    font-size: 10pt;
+    float: right;
+    font-family: 'Futura', 'Arial Black', sans-serif;
+    color: #E0E0E0 ;
+    vertical-align: middle;
+  }
+  .d {
+    font-size: 50pt;
+    font-family: 'Futura', 'Arial Black', sans-serif;
+    color: #E0E0E0  ;
+    font-weight: bold;
+  }
+  </style>
+    <body>
+        <div id="rcorners1">
+          <center class="d" href="">Runit</center>
+          <a class="s" href="/login/">Login </a>
+          <a class="s"> or </a>
+          <a class="s" href="/register/"><b> Sign up</b></a>
+        </div>
+
+
+    </body>
+</html>
