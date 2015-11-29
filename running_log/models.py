@@ -139,13 +139,13 @@ class DjangoSession(models.Model):
         db_table = 'django_session'
 
 
-class LogUser(models.Model):
+class UserProfile(models.Model):
     name = models.CharField(max_length=200)
     date = models.DateTimeField()
 
     class Meta:
         managed = False
-        db_table = 'log_user'
+        db_table = 'UserProfile'
 
 
 class Races(models.Model):

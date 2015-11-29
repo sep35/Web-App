@@ -1,5 +1,12 @@
 media/css/style.css
 
+.rcorners {
+    border-radius: 25px;
+    border: 2px solid #73AD21;
+    padding: 20px;
+    width: 500px;
+    height: 500px;
+}
 .navbar .active {
     font-weight: bold;
     font-size: 11pt;
@@ -10,6 +17,7 @@ media/css/style.css
 .page-header {
     background-color: #ff9900;
     margin-top: 0;
+    width: auto;
     padding: 20px 20px 20px 40px;
 }
 
@@ -56,20 +64,6 @@ media/css/style.css
     font-size: 9pt;
     top: 0px;
     right: 0px;
-}
-.top-corner2, .top-corner2:hover, .top-corner2:visited {
-    color: #ffffff;
-    position: absolute;
-    font-size: 9pt;
-    top: 0px;
-    right: 5px;
-}
-.top-corner1, .top-corner1:hover, .top-corner1:visited {
-    color: #ffffff;
-    position: absolute;
-    font-size: 9pt;
-    top: 0px;
-    right: 45px;
 }
 
 .user {

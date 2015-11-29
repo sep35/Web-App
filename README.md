@@ -1,5 +1,9 @@
 ###Run and Setup on Duke VM w/Vagrant###
 
+## Required Packages ##
+- django-tables2 (from vm run sudo pip install django-tables2)
+
+## Setup ##
 1. Run vagrant up then ssh into the vm in your terminal
 2. Navigate into /316-Project/Running_log/
 3. If you haven't, you must initiate the database by running

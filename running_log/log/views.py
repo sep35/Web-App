@@ -9,6 +9,8 @@ from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
 from django.contrib.auth import logout
 from django.contrib.auth.models import User
+from .tables import ActivityTable
+from django_tables2   import RequestConfig
 
 
 #### TEAM VIEWS ####
@@ -70,7 +72,9 @@ def profile(request):
 @login_required(login_url="/login/")
 def log(request):
     activities = Activity.objects.filter(user_id=request.user.id)
-    return render(request, 'log/activity_list.html', {'activities': activities})
+    table = ActivityTable(activities)
+    RequestConfig(request).configure(table)
+    return render(request, 'log/activity_list.html', {'table': table})
 
 @login_required(login_url="/login/")
 def new_activity(request):
@@ -85,3 +89,8 @@ def new_activity(request):
     else:
         form = ActivityForm()
     return render(request, 'log/activity_edit.html', {'form': form})
+
+@login_required(login_url="/login/")
+def detail(request, x):
+    activity = Activity.objects.get(id=x)
+    return render(request, 'log/details.html', {'activity': activity})

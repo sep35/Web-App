@@ -1,0 +1,15 @@
+{% extends 'log/base.html' %}
+{% block head %}
+
+{% endblock %}
+{% block body %}
+        <div>
+              <h3>Date: {{ activity.date }}</h2>
+              <p class="rcorners">{{ activity.activity_type }}</p>
+              <p>Distance: {{ activity.distance }}</p>
+              <p>Time: {{ activity.time }}</p>
+              <p>Weather: {{ activity.weather }}</p>
+              <p>Location: {{ activity.location }}</p>
+              <p>Comments: {{ activity.comments }}</p>
+        </div>
+{% endblock %}
