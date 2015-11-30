@@ -1,17 +1,84 @@
-{% extends 'log/base.html' %}
-{% block head %}
-<h2>Log</h2>
-{% endblock %}
-{% block body %}
-
-{% load render_table from django_tables2 %}
 <!doctype html>
-<html>
-    <head>
-        <link rel="stylesheet" href="{{ STATIC_URL }}/static/django_tables2/themes/paleblue/css/screen.css" />
-    </head>
-    <body>
-        {% render_table table %}
-    </body>
-</html>
+{% extends 'log/base.html' %}
+{% load staticfiles %}
+{% load render_table from django_tables2 %}
+
+{% block side %}
+<head style="width: 100px; float: left;position: fixed; left: 5px; top: 150px;">
+      {% render_table table2 %}
+</head>
+{% endblock %}
+
+{% block body %}
+<head>
+  <style>
+    table {
+      table-layout: fixed;
+      width: 500px;
+      margin-left: 150px;
+      border-radius: 15px 50px 15px;
+    }
+
+    th, td {
+      padding: 5px;
+      text-align: left;
+      table-layout:fixed;
+      width:20px;
+    }
+    table#t01 tr:nth-child(n+1):nth-child(-n+3) {
+      background-color: #eeeeee;
+    }
+    table#t01 tr:nth-child(odd) {
+     background-color:#ffffff;
+    }
+    table#t01 th	{
+      background-color: #808080 ;
+      color: white;
+    }
+    table#t01 tr:last-child td:first-child {
+      -moz-border-radius-bottomleft:10px;
+      -webkit-border-bottom-left-radius:10px;
+      border-bottom-left-radius:10px
+    }
+    table#t01 tr:last-child td:last-child {
+      -moz-border-radius-bottomright:10px;
+      -webkit-border-bottom-right-radius:10px;
+      border-bottom-right-radius:10px
+    }
+  </style>
+    <link rel="stylesheet" href="{{ STATIC_URL }}/static/django_tables2/themes/paleblue/css/screen.css" />
+</head>
+<body>
+  <!-- {% render_table table %}}-->
+
+   {% for a in table %}
+   <table id="t01">
+      <tr>
+          <th>{{ a.date }}</th>
+          <th>{{ a.activity_type }}</th>
+          <th>
+            <a class="s" href="/activity/{{a.id}}/">Detail</a>
+            <a class="s" href="/activity/{{a.id}}/">| Edit</a>
+            <a class="s" href="/activity/{{a.id}}/">| Delete</a>
+          </th>
+      </tr>
+      <tr>
+          <td>Total Distance: </td>
+          <td>{{ a.distance }} Miles in {{a.time}}</td>
+          <td></td>
+      </tr>
+      <tr>
+        <td>Comments: </td>
+        <td colspan="2">{{ a.comments }}</td>
+      </tr>
+      <tr>
+        <td>Location: {{ a.location }}</td>
+        <td>Weather: {{ a.conditions }}</td>
+        <td></td>
+      </tr>
+      <br></br>
+  </table>
+    {% endfor %}
+
+</body>
 {% endblock %}

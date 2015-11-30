@@ -1,17 +1,64 @@
 {% extends "log/base.html" %}
 
 {% block head %}
-        <h1> Current Profile of: {{ user.get_username}}</h1>
+        <h1> Current Profile: {{ user.get_username}}</h1>
 {% endblock %}
 {% block body %}
-      <div class="user">
-          <div class="id">
-              <h3> General Information: </h3>
-              <p>First Name: {{user.first_name }}</p>
-              <p>Last Name: {{user.last_name }}</p>
-              <p>Email: {{user.email }} </p>
-              <p>Member Since: {{user.date_joined }}</p>
-              <p>Last Login: {{user.last_login }}</p>
-          </div>
-      </div>
+<head>
+  <style>
+    table {
+      table-layout: fixed;
+      width: 100%;
+      border-radius: 15px 50px 15px;
+    }
+
+    th, td {
+      padding: 5px;
+      text-align: left;
+      table-layout:fixed;
+      width:20px;
+    }
+    table#t01 tr:nth-child(n+1) {
+      background-color: #eeeeee;
+    }
+    table#t01 th	{
+      background-color: #808080 ;
+      color: white;
+    }
+  </style>
+</head>
+  <table id="t01">
+   <tr>
+       <th colspan="2">General Information</th>
+       <th></th>
+       <th align="right">
+         <a class="s" href="/activity/{{a.id}}/">| Edit</a>
+       </th>
+   </tr>
+   <tr>
+       <td>First Name: </td>
+       <td colspan="2">{{user.first_name }}</td>
+       <td></td>
+   </tr>
+   <tr>
+     <td> Last Name: </td>
+     <td colspan="2">{{user.last_name }}</td>
+     <td></td>
+   </tr>
+   <tr>
+     <td>Email: </td>
+     <td colspan="2">{{user.email }}</td>
+     <td></td>
+   </tr>
+   <tr>
+     <td>Member Since: </td>
+     <td colspan="2">{{user.date_joined }}</td>
+     <td></td>
+   </tr>
+   <tr>
+     <td>Last Login: </td>
+     <td colspan="2">{{user.last_login }}</td>
+     <td></td>
+   </tr>
+  </table>
 {% endblock %}

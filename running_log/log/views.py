@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
 from django.contrib.auth import logout
 from django.contrib.auth.models import User
-from .tables import ActivityTable
+from .tables import ActivityTable, top20Table
 from django_tables2   import RequestConfig
 
 
@@ -19,7 +19,6 @@ from django_tables2   import RequestConfig
 def teams(request):
     teams = Team.objects.all()
     return render(request, 'log/teams.html', {'teams': teams})
-
 
 
 #### REGISTRATION + SETUP VIEWS ####
@@ -72,9 +71,15 @@ def profile(request):
 @login_required(login_url="/login/")
 def log(request):
     activities = Activity.objects.filter(user_id=request.user.id)
-    table = ActivityTable(activities)
+    TOP20 = User.objects.raw('''SELECT* FROM (SELECT SUM(distance) As distance, username, auth_user.id from auth_user LEFT OUTER JOIN Activity ON auth_user.id = Activity.user_id Where Activity.date BETWEEN (current_date- 6) AND current_date  Group By auth_user.id) AS B LIMIT 20;''')
+
+    table = ActivityTable(activities, prefix="1-")
+    table2 = top20Table(TOP20, prefix="2-")
+
     RequestConfig(request).configure(table)
-    return render(request, 'log/activity_list.html', {'table': table})
+    RequestConfig(request).configure(table2)
+
+    return render(request, 'log/activity_list.html', {'table': activities, 'table2':table2})
 
 @login_required(login_url="/login/")
 def new_activity(request):

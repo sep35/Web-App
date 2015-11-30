@@ -11,3 +11,12 @@ class ActivityTable(tables.Table):
         # add class="paleblue" to <table> tag
         attrs = {'class': 'paleblue','width':'120%'}
         fields = ("date","activity_type", "distance", "time", "conditions", "location", "comments" )
+
+class top20Table(tables.Table):
+
+    username = tables.Column()
+    distance = tables.Column()
+    class Meta:
+        # add class="paleblue" to <table> tag
+        attrs = {'class': 'paleblue','width':'100%'}
+        fields = ("username","distance")
