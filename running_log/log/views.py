@@ -11,7 +11,7 @@ from django.contrib.auth import logout
 from django.contrib.auth.models import User
 from .tables import ActivityTable, top20Table
 from django_tables2   import RequestConfig
-
+from chartit import DataPool, Chart
 
 #### TEAM VIEWS ####
 
@@ -99,3 +99,64 @@ def new_activity(request):
 def detail(request, x):
     activity = Activity.objects.get(id=x)
     return render(request, 'log/details.html', {'activity': activity})
+
+### Graph Views ###
+
+
+@login_required(login_url="/login/")
+def charts(request):
+    pacedata = \
+        DataPool(
+           series=
+            [{'options': {
+               'source': Activity.objects.filter(user_id=request.user.id)},
+              'terms': [
+                'time',
+                'distance']}
+             ])
+    runtype = \
+        DataPool(
+           series=
+            [{'options': {
+               'source': Activity.objects.filter(user_id=request.user.id)},
+              'terms': [
+                'activity_type',
+                'distance']}
+             ])
+
+    #Step 2: Create the Chart object
+    cht = Chart(
+            datasource = pacedata,
+            series_options =
+              [{'options':{
+                  'type': 'scatter',
+                  'stacking': False},
+                'terms':{
+                  'time': [
+                    'distance']
+                  }}],
+            chart_options =
+              {'title': {
+                   'text': 'Runs: Distance/Time '},
+               'xAxis': {
+                    'title': {
+                       'text': 'time'}}})
+    cht2 = Chart(
+        datasource = runtype,
+        series_options =
+          [{'options':{
+              'type': 'column',
+              'stacking': True},
+            'terms':{
+              'activity_type': [
+                'distance']
+              }}],
+        chart_options =
+          {'title': {
+               'text': 'Activity Types'},
+           'xAxis': {
+                'title': {
+                   'text': 'Type'}}})
+
+    #Step 3: Send the chart object to the template.
+    return render_to_response('log/charts.html',{'pacedata': cht,'types':cht2},context_instance=RequestContext(request))

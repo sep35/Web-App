@@ -2,7 +2,8 @@
 
 ## Required Packages ##
 - django-tables2 (from vm run sudo pip install django-tables2)
-
+- django_chartit (from vm run sudo pip install django_chartit)
+  - Also have to edit /chartit/chartit.py --> change from x import json --> to import json
 ## Setup ##
 1. Run vagrant up then ssh into the vm in your terminal
 2. Navigate into /316-Project/Running_log/

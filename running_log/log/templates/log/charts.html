@@ -1,0 +1,21 @@
+<!doctype html>
+{% extends 'log/base.html' %}
+{% load staticfiles %}
+
+{% block body %}
+<head>
+    <!-- code to include the highcharts and jQuery libraries goes here -->
+    <!-- load_charts filter takes a comma-separated list of id's where -->
+    <!-- the charts need to be rendered to                             -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+    <script src="http://code.highcharts.com/highcharts.js" type="text/javascript"></script>
+    <script src="/highcharts.js" type="text/javascript"></script>
+    {% load chartit %}
+    {{ pacedata|load_charts:"container" }}
+    <!--{{ types|load_charts:"container2" }}-->
+</head>
+<body>
+    <div id='container'> Chart will be rendered here </div>
+    <!--<div id='container2'> Chart will be rendered here </div>-->
+</body>
+{% endblock %}

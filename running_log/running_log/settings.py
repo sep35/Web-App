@@ -40,7 +40,8 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'log',
     'log.templatetags.base_extras',
-    'django_tables2'
+    'django_tables2',
+    'chartit'
 )
 
 MIDDLEWARE_CLASSES = (
