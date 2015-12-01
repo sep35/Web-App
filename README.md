@@ -1,15 +1,13 @@
-###Run and Setup on Duke VM w/Vagrant###
+##Run and Setup on Duke VM w/Vagrant##
 
-## Required Packages ##
-<<<<<<< HEAD
+### Required Packages ###
 - django-tables2 (from vm run `sudo pip install django-tables2`)
 - django_chartit (from vm run sudo pip install django_chartit)
-  - Also have to edit /chartit/chartit.py --> change from x import json --> to import json
+  - Also have to edit /chartit/templatetags/chartit.py
+    -from django.utils import simplejson
+    +import simplejson
 
-
-
->>>>>>> 77a8b01ac6b375704549f1e8e0545a10b8d7a701
-## Setup ##
+### Setup ###
 1. Run vagrant up then ssh into the vm in your terminal
 2. Navigate into /316-Project/Running_log/
 3. If you haven't, you must initiate the database by running
