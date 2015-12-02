@@ -12,6 +12,9 @@ from django.contrib.auth.models import User
 from .tables import ActivityTable, top20Table
 from django_tables2   import RequestConfig
 from chartit import DataPool, Chart
+from django.core.serializers.json import DjangoJSONEncoder
+import json
+
 
 #### TEAM VIEWS ####
 
@@ -100,16 +103,21 @@ def detail(request, x):
     activity = Activity.objects.get(id=x)
     return render(request, 'log/details.html', {'activity': activity})
 
-### Graph Views ###
 
 
+### Graph/Charts Views ###
 @login_required(login_url="/login/")
 def charts(request):
+    data = Activity.objects.filter(user_id=request.user.id)
+    #data =  json.dumps(data, cls=DjangoJSONEncoder)
+    for d in data:
+        d.date = 5
+        print d.date
     pacedata = \
         DataPool(
            series=
             [{'options': {
-               'source': Activity.objects.filter(user_id=request.user.id)},
+               'source': data},
               'terms': [
                 'time',
                 'distance']}

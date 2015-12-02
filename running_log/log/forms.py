@@ -12,7 +12,7 @@ import datetime
 class ActivityForm(forms.ModelForm):
     class Meta:
         model = Activity
-        fields = ('activity_type','distance','time','shoe','conditions','location','comments')
+        fields = ('activity_type','distance','t','shoe','conditions','location','comments')
     def save(self, commit=True):
         Activity = super(ActivityForm, self).save(commit = False)
         Activity.date = datetime.datetime.utcnow()

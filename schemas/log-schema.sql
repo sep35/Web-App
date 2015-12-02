@@ -24,7 +24,7 @@ CREATE TABLE Activity
   date DATE NOT NULL,
   user_id INTEGER REFERENCES Users (id),
   distance INTEGER,
-  time INTEGER,
+  t interval,
   shoe_id INTEGER REFERENCES Shoe,
   activity_Type VARCHAR(256) DEFAULT 'Normal Run',
   conditions VARCHAR(512),

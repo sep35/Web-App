@@ -8,7 +8,6 @@
 # Also note: You'll have to insert the output of 'django-admin sqlcustom [app_label]'
 # into your database.
 from __future__ import unicode_literals
-
 from django.db import models
 import datetime
 
@@ -17,7 +16,7 @@ class Activity(models.Model):
     date = models.DateField()
     user = models.ForeignKey('Users', blank=True, null=True)
     distance = models.IntegerField(blank=True, null=True)
-    time = models.IntegerField(blank=True, null=True)
+    time = models.DurationField(blank=True, null=True)
     shoe = models.ForeignKey('Shoe', blank=True, null=True)
     activity_type = models.CharField(max_length=256, blank=True, null=True)
     conditions = models.CharField(max_length=512, blank=True, null=True)

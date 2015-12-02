@@ -17,7 +17,7 @@ class Activity(models.Model):
     date = models.DateField()
     user = models.ForeignKey(User)
     distance = models.IntegerField(blank=True, null=True)
-    time = models.IntegerField(blank=True, null=True)
+    t = models.DurationField(blank=True, null=True)
     shoe = models.ForeignKey('Shoe', blank=True, null=True)
     activity_type = models.CharField(max_length=256, blank=True, null=True)
     conditions = models.CharField(max_length=512, blank=True, null=True)
