@@ -1,0 +1,17 @@
+{% extends "log/base.html" %}
+
+
+{% block body %}
+    <h3>
+      {% for datum in data %}
+          <div class="user">
+              <div class="content">
+                  <p>date: {{ data.date }}</p>
+              </div>
+              <p>{{ data.activity_type|linebreaks }}</p>
+              <p>{{ data.distance|linebreaks }}</p>
+              <p>{{ data.time|linebreaks }}</p>
+          </div>
+      {% endfor %}
+    </h3>
+{% endblock %}

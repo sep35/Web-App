@@ -12,7 +12,7 @@
     https://github.com/bastir85/django-chartit/commit/aa47dc1d5f7e13e72c0f96fa22e61788b89afc4b
 ### Setup ###
 1. Run vagrant up then ssh into the vm in your terminal
-2. Navigate into /316-Project/Running_log/
+2. Navigate into `/316-Project/`
 3. If you haven't, you must initiate the database by running
   - `dropdb log; createdb log; psql log -af schemas/log-schema.sql`
 4. Update and migrate the app files

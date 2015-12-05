@@ -16,6 +16,7 @@ from django.core.serializers.json import DjangoJSONEncoder
 from django.db.models import Sum
 import json
 import time, datetime
+import re
 
 
 #### TEAM VIEWS ####
@@ -105,7 +106,33 @@ def detail(request, x):
     activity = Activity.objects.get(id=x)
     return render(request, 'log/details.html', {'activity': activity})
 
+#### Tables for custom SQL queries ####
 
+def inputScrub(userInput, id):
+    a = re.compile(r'.*(DROP|INSERT|DELETE|;)', re.I)
+    if a.match(userInput):
+        return ''
+
+    userInput = userInput.replace('Activity', '''(SELECT * FROM Activity WHERE user_id = ''' + str(id) + ''') AS userActivities''')
+    #a = a.replace('Shoe', 'SELECT * FROM Shoe WHERE user_id = '+str(id))
+    #a = a.replace('Team', 'SELECT * FROM Activities WHERE user_id = '+str(id))
+
+
+    return (userInput)
+
+
+@login_required(login_url="/login/")
+def table(request):
+
+    rawQueryString = 'SELECT * FROM Activity'
+
+    rawQueryString = inputScrub(rawQueryString, request.user.id)
+
+    queryTuples = User.objects.raw(rawQueryString)
+
+
+
+    return render(request, 'log/table.html', {'data': queryTuples})
 
 ### Helper Functions ###
 def month_name_day(*t):
