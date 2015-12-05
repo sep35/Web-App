@@ -8,7 +8,8 @@
     -from django.utils import simplejson
     +import simplejson
     ```
-
+  - Also we have to make these changes, in order to handle datetime types for the charts
+    https://github.com/bastir85/django-chartit/commit/aa47dc1d5f7e13e72c0f96fa22e61788b89afc4b
 ### Setup ###
 1. Run vagrant up then ssh into the vm in your terminal
 2. Navigate into /316-Project/Running_log/

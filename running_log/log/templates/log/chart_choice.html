@@ -1,0 +1,29 @@
+{% extends "log/base.html" %}
+
+{% block head %}
+  <title>Running2Win | Login</title>
+{% endblock %}
+
+{% block body %}
+  <header>
+    <h1>Chart Option</h1>
+  </header>
+
+  <section>
+    {% if form.errors %}
+      <p>Create a valid date</p>
+    {% endif %}
+
+    <form method="post" action=".">
+      {% csrf_token %}
+      <p>
+        <label for="startDate">Start Date:</label>
+        {{ form.startDate }}
+      </p>
+      <p>
+        <label for="endDate">End Date:</label>
+        {{ form.endDate }}
+      </p>
+
+  </section>
+{% endblock %}

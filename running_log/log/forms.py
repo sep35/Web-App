@@ -12,13 +12,18 @@ import datetime
 class ActivityForm(forms.ModelForm):
     class Meta:
         model = Activity
-        fields = ('activity_type','distance','t','shoe','conditions','location','comments')
+        fields = ('activity_type','distance','time','shoe','conditions','location','comments')
     def save(self, commit=True):
         Activity = super(ActivityForm, self).save(commit = False)
         Activity.date = datetime.datetime.utcnow()
         if commit:
             Activity.save()
         return Activity
+
+class DateRangeForm(forms.ModelForm):
+    startDate = forms.DateField(label="Start Date")
+    endDate = forms.DateField(label="End Date")
+
 
 class UserForm(forms.ModelForm):
     password1 = forms.CharField(label="password",widget=forms.PasswordInput())

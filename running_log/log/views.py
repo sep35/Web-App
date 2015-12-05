@@ -2,7 +2,7 @@
 
 from django.shortcuts import render,render_to_response,redirect
 from django.http import HttpResponse
-from .forms import ActivityForm, UserForm
+from .forms import ActivityForm, UserForm, DateRangeForm
 from .models import Users, Activity, Team, AuthUser
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
@@ -13,7 +13,9 @@ from .tables import ActivityTable, top20Table
 from django_tables2   import RequestConfig
 from chartit import DataPool, Chart
 from django.core.serializers.json import DjangoJSONEncoder
+from django.db.models import Sum
 import json
+import time, datetime
 
 
 #### TEAM VIEWS ####
@@ -105,66 +107,80 @@ def detail(request, x):
 
 
 
+### Helper Functions ###
+def month_name_day(*t):
+    names ={'1': 'Jan', '2': 'Feb', '3': 'Mar', '4': 'Apr',
+            '5': 'May', '6': 'Jun', '7': 'Jul', '8': 'Aug',
+            '9': 'Sep', '10': 'Oct', '11': 'Nov', '12': 'Dec'}
+    month_num = t[0][0]
+    return (names[month_num], t[0][1])
+
 ### Graph/Charts Views ###
 @login_required(login_url="/login/")
 def charts(request):
-    data = Activity.objects.filter(user_id=request.user.id)
-    #data =  json.dumps(data, cls=DjangoJSONEncoder)
-    for d in data:
-        d.date = 5
-        print d.date
-    pacedata = \
-        DataPool(
-           series=
-            [{'options': {
-               'source': data},
-              'terms': [
-                'time',
-                'distance']}
-             ])
-    runtype = \
-        DataPool(
-           series=
-            [{'options': {
-               'source': Activity.objects.filter(user_id=request.user.id)},
-              'terms': [
-                'activity_type',
-                'distance']}
-             ])
+      data = Activity.objects.filter(user_id=request.user.id).order_by('-date')[:20]
+      mileage_per_date = Activity.objects.filter(date__range=('2013-07-26','2016-07-26')).values('date').annotate(distance=Sum('distance'))
 
-    #Step 2: Create the Chart object
-    cht = Chart(
-            datasource = pacedata,
-            series_options =
-              [{'options':{
-                  'type': 'scatter',
-                  'stacking': False},
-                'terms':{
-                  'time': [
-                    'distance']
-                  }}],
-            chart_options =
-              {'title': {
-                   'text': 'Runs: Distance/Time '},
-               'xAxis': {
-                    'title': {
-                       'text': 'time'}}})
-    cht2 = Chart(
-        datasource = runtype,
-        series_options =
-          [{'options':{
-              'type': 'column',
-              'stacking': True},
-            'terms':{
-              'activity_type': [
-                'distance']
-              }}],
-        chart_options =
-          {'title': {
-               'text': 'Activity Types'},
-           'xAxis': {
-                'title': {
-                   'text': 'Type'}}})
+      def month_name_day(*t):
+          names ={'1': 'Jan', '2': 'Feb', '3': 'Mar', '4': 'Apr',
+                  '5': 'May', '6': 'Jun', '7': 'Jul', '8': 'Aug',
+                  '9': 'Sep', '10': 'Oct', '11': 'Nov', '12': 'Dec'}
+          month_num = t[0][0]
+          return (names[month_num], t[0][1])
+      runtype = \
+          DataPool(
+             series=
+              [{'options': {
+                 'source': mileage_per_date},
+                'terms': [
+                  ('date',lambda d: (d.strftime("%m"),d.strftime("%d"))),
+                  'distance']}
+               ])
+      cht2 = Chart(
+          datasource = runtype,
+          series_options =
+            [{'options':{
+                'type': 'column',
+                'stacking': False},
+              'terms':{
+                'date': [
+                  'distance']
+                }}],
+          chart_options =
+            {'title': {
+                 'text': 'Distance by Date'},
+             'xAxis': {
+                  'title': {
+                     'text': 'Date'}}},
+                     x_sortf_mapf_mts=(None,month_name_day, False))
+      #Step 2: Create the Chart object
+      pacedata = \
+          DataPool(
+             series=
+              [{'options': {
+                 'source': data},
+                'terms': [
+                  ('date', lambda d: (d.strftime("%m"),d.strftime("%d"))),
+                  'distance']}
+               ])
 
-    #Step 3: Send the chart object to the template.
-    return render_to_response('log/charts.html',{'pacedata': cht,'types':cht2},context_instance=RequestContext(request))
+      cht = Chart(
+              datasource = pacedata,
+              series_options =
+                [{'options':{
+                    'type': 'line',
+                    'stacking': True},
+                  'terms':{
+                    'date': [
+                      'distance']
+                    }}],
+              chart_options =
+                {'title': {
+                     'text': 'Runs: Distance/Date '},
+                 'xAxis': {
+                      'title': {
+                         'text': 'Date'}}},
+                         x_sortf_mapf_mts=(lambda x: (x[1],x[0]),month_name_day, False))
+
+      #Step 3: Send the chart object to the template.
+      return render_to_response('log/charts.html',{'pacedata': cht2,'types':cht2},context_instance=RequestContext(request))

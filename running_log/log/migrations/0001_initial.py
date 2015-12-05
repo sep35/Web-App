@@ -16,7 +16,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('date', models.DateField()),
                 ('distance', models.IntegerField(null=True, blank=True)),
-                ('t', models.DurationField(null=True, blank=True)),
+                ('time', models.DurationField(null=True, blank=True)),
                 ('activity_type', models.CharField(max_length=256, null=True, blank=True)),
                 ('conditions', models.CharField(max_length=512, null=True, blank=True)),
                 ('location', models.CharField(max_length=512, null=True, blank=True)),
