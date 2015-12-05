@@ -15,7 +15,11 @@ urlpatterns = [
     url(r'^activity/new/$', views.new_activity, name='new_activity'),
     url(r'^activity/(\d+)/$', views.detail, name='detail'),
     url(r'^charts/$', views.charts, name='charts'),
+    url(r'^table/$', views.table, name='table'
 
     #### Team setup & logs ####
     url(r'^teams/$', views.teams, name='teams')
+
+    #### Public SQL data tables ####
+    url(r'^publicTable/$', views.publicTable, name='publicTable')
 ]
