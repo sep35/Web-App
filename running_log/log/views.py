@@ -119,7 +119,6 @@ def inputScrub(userInput, id):
     return (userInput)
 
 
-@login_required(login_url="/login/")
 def table(request):
 
     rawQueryString = 'SELECT * FROM Activity'
@@ -130,13 +129,11 @@ def table(request):
     columns = queryTuples.columns
 
     a = []
-
     for r in queryTuples:
         b = []
         for c in columns:
             b.append(getattr(r, c))
         a.append(b)
-    print(a)
 
 
 
