@@ -16,7 +16,6 @@ from django.core.serializers.json import DjangoJSONEncoder
 from django.db.models import Sum
 import json
 import time, datetime
-import re
 
 
 #### TEAM VIEWS ####
@@ -106,24 +105,12 @@ def detail(request, x):
     activity = Activity.objects.get(id=x)
     return render(request, 'log/details.html', {'activity': activity})
 
-#### Tables for custom SQL queries ####
-
-def inputScrub(userInput, id):
-    a = re.compile(r'.*(DROP|INSERT|DELETE|;)', re.I)
-    if a.match(userInput):
-        return ''
-
-    userInput = userInput.replace('my_user_id', str(id))
-
-
-    return (userInput)
-
-
+#### Table for custom SQL queries ####
 def table(request):
 
     rawQueryString = 'SELECT * FROM Activity'
 
-    rawQueryString = inputScrub(rawQueryString, request.user.id)
+    rawQueryString = rawQueryString.replace('my_user_id', str(id))
 
     queryTuples = User.objects.raw(rawQueryString)
     columns = queryTuples.columns
