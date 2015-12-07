@@ -1,17 +1,63 @@
-{% extends "log/base.html" %}
+<!doctype html>
+{% extends 'log/base.html' %}
+{% load staticfiles %}
+{% load render_table from django_tables2 %}
 
 
 {% block body %}
-    <h3>
-      {% for datum in data %}
-          <div class="user">
-              <div class="content">
-                  <p>date: {{ data.date }}</p>
-              </div>
-              <p>{{ data.activity_type|linebreaks }}</p>
-              <p>{{ data.distance|linebreaks }}</p>
-              <p>{{ data.time|linebreaks }}</p>
-          </div>
+<head>
+  <style>
+    table {
+      table-layout: fixed;
+      width: 500px;
+      margin-left: 150px;
+      border-radius: 15px 50px 15px;
+    }
+
+    th, td {
+      padding: 5px;
+      text-align: left;
+      table-layout:fixed;
+      width:20px;
+    }
+    table#t01 tr:nth-child(n+1):nth-child(-n+3) {
+      background-color: #eeeeee;
+    }
+    table#t01 tr:nth-child(odd) {
+     background-color:#ffffff;
+    }
+    table#t01 th	{
+      background-color: #808080 ;
+      color: white;
+    }
+    table#t01 tr:last-child td:first-child {
+      -moz-border-radius-bottomleft:10px;
+      -webkit-border-bottom-left-radius:10px;
+      border-bottom-left-radius:10px
+    }
+    table#t01 tr:last-child td:last-child {
+      -moz-border-radius-bottomright:10px;
+      -webkit-border-bottom-right-radius:10px;
+      border-bottom-right-radius:10px
+    }
+  </style>
+</head>
+<body>
+
+   <table id="t01">
+    <tr>
+      {% for column in columns %}<th>{{ column }}</th>{% endfor %}
+    </tr>
+     {% for row in data %}
+      <tr>
+        {% for cell in row %}
+          <td>{{ cell }} </td>
+          {% endfor %}
+      </tr>
+    <br/></br>
       {% endfor %}
-    </h3>
+  </table>
+
+
+</body>
 {% endblock %}
