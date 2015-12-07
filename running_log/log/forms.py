@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django import forms
 import datetime
+import re
 
 
 class ActivityForm(forms.ModelForm):
@@ -23,6 +24,16 @@ class ActivityForm(forms.ModelForm):
 class DateRangeForm(forms.ModelForm):
     startDate = forms.DateField(label="Start Date")
     endDate = forms.DateField(label="End Date")
+
+class PsqlQueryForm(forms.ModelForm):
+    query = forms.CharField(label='Enter SQL query for evaluation')
+
+    def safeQuery(self):
+        a = re.compile(r'.*(DROP|INSERT|DELETE|;)', re.I)
+        if a.match(userInput):
+            msg = "You wouldn't try an SQL injection attack on a bear."
+            raise forms.ValidationError("Possible database corrupting query")
+        return
 
 
 class UserForm(forms.ModelForm):
