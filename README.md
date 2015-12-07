@@ -12,14 +12,16 @@
     https://github.com/bastir85/django-chartit/commit/aa47dc1d5f7e13e72c0f96fa22e61788b89afc4b
 ### Setup ###
 1. Run vagrant up then ssh into the vm in your terminal
-2. Navigate into `/316-Project/`
+2. Navigate into `/316-Project/running_log/`
 3. If you haven't, you must initiate the database by running
-  - `dropdb log; createdb log; psql log -af schemas/log-schema.sql`
+  - `dropdb log; createdb log;`
 4. Update and migrate the app files
   - `python manage.py makemigrations log`
   - `python manage.py migrate`
-5. Initialize database
-  - `python manage.py loaddata schemas/users.json`
+5. Initialize date for database
+  - `python manage.py loaddata users`
+  - `python manage.py loaddata activity`
+  - `python manage.py loaddata user_log_data`
 6. Run the local host server of your VM
   - `python manage.py runserver`
   - port 8000 is the default, so if you open the VirtualBox VM you should just have to go to localhost:8000 on a web browser

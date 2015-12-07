@@ -158,9 +158,9 @@ def charts(request):
       mileage_per_date = Activity.objects.filter(date__range=('2013-07-26','2016-07-26')).values('date').annotate(distance=Sum('distance'))
 
       def month_name_day(*t):
-          names ={'1': 'Jan', '2': 'Feb', '3': 'Mar', '4': 'Apr',
-                  '5': 'May', '6': 'Jun', '7': 'Jul', '8': 'Aug',
-                  '9': 'Sep', '10': 'Oct', '11': 'Nov', '12': 'Dec'}
+          names ={'01': 'Jan', '02': 'Feb', '03': 'Mar', '04': 'Apr',
+                  '05': 'May', '06': 'Jun', '07': 'Jul', '08': 'Aug',
+                  '09': 'Sep', '10': 'Oct', '11': 'Nov', '12': 'Dec'}
           month_num = t[0][0]
           return (names[month_num], t[0][1])
       runtype = \
