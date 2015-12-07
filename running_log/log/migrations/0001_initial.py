@@ -2,11 +2,13 @@
 from __future__ import unicode_literals
 
 from django.db import migrations, models
+from django.conf import settings
 
 
 class Migration(migrations.Migration):
 
     dependencies = [
+        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
@@ -14,7 +16,7 @@ class Migration(migrations.Migration):
             name='Activity',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('date', models.DateField()),
+                ('date', models.DateField(db_index=True)),
                 ('distance', models.IntegerField(null=True, blank=True)),
                 ('time', models.DurationField(null=True, blank=True)),
                 ('activity_type', models.CharField(max_length=256, null=True, blank=True)),
@@ -24,144 +26,20 @@ class Migration(migrations.Migration):
             ],
             options={
                 'db_table': 'activity',
-                'managed': False,
+                'managed': True,
             },
         ),
         migrations.CreateModel(
-            name='AuthGroup',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('name', models.CharField(unique=True, max_length=80)),
-            ],
-            options={
-                'db_table': 'auth_group',
-                'managed': False,
-            },
-        ),
-        migrations.CreateModel(
-            name='AuthGroupPermissions',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-            ],
-            options={
-                'db_table': 'auth_group_permissions',
-                'managed': False,
-            },
-        ),
-        migrations.CreateModel(
-            name='AuthPermission',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('name', models.CharField(max_length=255)),
-                ('codename', models.CharField(max_length=100)),
-            ],
-            options={
-                'db_table': 'auth_permission',
-                'managed': False,
-            },
-        ),
-        migrations.CreateModel(
-            name='AuthUser',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('password', models.CharField(max_length=128)),
-                ('last_login', models.DateTimeField(null=True, blank=True)),
-                ('is_superuser', models.BooleanField()),
-                ('username', models.CharField(unique=True, max_length=30)),
-                ('first_name', models.CharField(max_length=30)),
-                ('last_name', models.CharField(max_length=30)),
-                ('email', models.CharField(max_length=254)),
-                ('is_staff', models.BooleanField()),
-                ('is_active', models.BooleanField()),
-                ('date_joined', models.DateTimeField()),
-            ],
-            options={
-                'db_table': 'auth_user',
-                'managed': False,
-            },
-        ),
-        migrations.CreateModel(
-            name='AuthUserGroups',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-            ],
-            options={
-                'db_table': 'auth_user_groups',
-                'managed': False,
-            },
-        ),
-        migrations.CreateModel(
-            name='AuthUserUserPermissions',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-            ],
-            options={
-                'db_table': 'auth_user_user_permissions',
-                'managed': False,
-            },
-        ),
-        migrations.CreateModel(
-            name='DjangoAdminLog',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('action_time', models.DateTimeField()),
-                ('object_id', models.TextField(null=True, blank=True)),
-                ('object_repr', models.CharField(max_length=200)),
-                ('action_flag', models.SmallIntegerField()),
-                ('change_message', models.TextField()),
-            ],
-            options={
-                'db_table': 'django_admin_log',
-                'managed': False,
-            },
-        ),
-        migrations.CreateModel(
-            name='DjangoContentType',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('app_label', models.CharField(max_length=100)),
-                ('model', models.CharField(max_length=100)),
-            ],
-            options={
-                'db_table': 'django_content_type',
-                'managed': False,
-            },
-        ),
-        migrations.CreateModel(
-            name='DjangoMigrations',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('app', models.CharField(max_length=255)),
-                ('name', models.CharField(max_length=255)),
-                ('applied', models.DateTimeField()),
-            ],
-            options={
-                'db_table': 'django_migrations',
-                'managed': False,
-            },
-        ),
-        migrations.CreateModel(
-            name='DjangoSession',
-            fields=[
-                ('session_key', models.CharField(max_length=40, serialize=False, primary_key=True)),
-                ('session_data', models.TextField()),
-                ('expire_date', models.DateTimeField()),
-            ],
-            options={
-                'db_table': 'django_session',
-                'managed': False,
-            },
-        ),
-        migrations.CreateModel(
-            name='LogUser',
+            name='Profile',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=200)),
-                ('date', models.DateTimeField()),
+                ('picture', models.DateTimeField()),
+                ('user', models.ForeignKey(blank=True, to=settings.AUTH_USER_MODEL, null=True)),
             ],
             options={
-                'db_table': 'log_user',
-                'managed': False,
+                'db_table': 'Profile',
+                'managed': True,
             },
         ),
         migrations.CreateModel(
@@ -172,10 +50,11 @@ class Migration(migrations.Migration):
                 ('distance', models.IntegerField(null=True, blank=True)),
                 ('time', models.IntegerField(null=True, blank=True)),
                 ('place', models.CharField(max_length=256, null=True, blank=True)),
+                ('activity_id', models.ForeignKey(blank=True, to='log.Activity', null=True)),
             ],
             options={
                 'db_table': 'races',
-                'managed': False,
+                'managed': True,
             },
         ),
         migrations.CreateModel(
@@ -185,34 +64,22 @@ class Migration(migrations.Migration):
                 ('name', models.CharField(max_length=256, null=True, blank=True)),
                 ('mileage', models.IntegerField(null=True, blank=True)),
                 ('expiration_mileage', models.IntegerField(null=True, blank=True)),
+                ('user', models.ForeignKey(blank=True, to=settings.AUTH_USER_MODEL, null=True)),
             ],
             options={
                 'db_table': 'shoe',
-                'managed': False,
+                'managed': True,
             },
         ),
         migrations.CreateModel(
             name='Team',
             fields=[
-                ('id', models.IntegerField(serialize=False, primary_key=True)),
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(unique=True, max_length=256)),
             ],
             options={
                 'db_table': 'team',
-                'managed': False,
-            },
-        ),
-        migrations.CreateModel(
-            name='Users',
-            fields=[
-                ('user_id', models.IntegerField(serialize=False, primary_key=True)),
-                ('name', models.CharField(max_length=256)),
-                ('email', models.CharField(unique=True, max_length=256)),
-                ('password', models.CharField(max_length=256)),
-            ],
-            options={
-                'db_table': 'users',
-                'managed': False,
+                'managed': True,
             },
         ),
         migrations.CreateModel(
@@ -224,10 +91,25 @@ class Migration(migrations.Migration):
                 ('actual_time', models.CharField(max_length=256, null=True, blank=True)),
                 ('goal_time', models.CharField(max_length=256, null=True, blank=True)),
                 ('rest', models.CharField(max_length=256, null=True, blank=True)),
+                ('activity_id', models.ForeignKey(to='log.Activity')),
             ],
             options={
                 'db_table': 'workout',
-                'managed': False,
+                'managed': True,
             },
+        ),
+        migrations.AddField(
+            model_name='activity',
+            name='shoe',
+            field=models.ForeignKey(blank=True, to='log.Shoe', null=True),
+        ),
+        migrations.AddField(
+            model_name='activity',
+            name='user',
+            field=models.ForeignKey(to=settings.AUTH_USER_MODEL),
+        ),
+        migrations.AlterUniqueTogether(
+            name='workout',
+            unique_together=set([('activity_id', 'interval_num')]),
         ),
     ]

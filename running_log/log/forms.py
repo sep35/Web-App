@@ -1,6 +1,6 @@
 # forms
 from django.contrib.auth.models import User
-from .models import Activity, AuthUser
+from .models import Activity
 from django.template import RequestContext
 from django.shortcuts import render,render_to_response
 from django.contrib.auth.models import User

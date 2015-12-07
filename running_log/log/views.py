@@ -3,7 +3,7 @@
 from django.shortcuts import render,render_to_response,redirect
 from django.http import HttpResponse
 from .forms import ActivityForm, UserForm, DateRangeForm
-from .models import Users, Activity, Team, AuthUser
+from .models import Activity, Team
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
@@ -69,7 +69,7 @@ def register(request):
 def profile(request):
     context = RequestContext(request)
 
-    u = AuthUser.objects.get(username=request.user.username)
+    u = User.objects.get(username=request.user.username)
     activities = Activity.objects.filter(user_id=request.user.id)
 
     return render_to_response('log/profile.html', {'u': u, 'activities': activities}, context)

@@ -18,6 +18,8 @@
 4. Update and migrate the app files
   - `python manage.py makemigrations log`
   - `python manage.py migrate`
-5. Run the local host server of your VM
+5. Initialize database
+  - `python manage.py loaddata schemas/users.json`
+6. Run the local host server of your VM
   - `python manage.py runserver`
   - port 8000 is the default, so if you open the VirtualBox VM you should just have to go to localhost:8000 on a web browser
