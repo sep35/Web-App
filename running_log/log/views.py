@@ -113,9 +113,7 @@ def inputScrub(userInput, id):
     if a.match(userInput):
         return ''
 
-    userInput = userInput.replace('Activity', '''(SELECT * FROM Activity WHERE user_id = ''' + str(id) + ''') AS userActivities''')
-    #a = a.replace('Shoe', 'SELECT * FROM Shoe WHERE user_id = '+str(id))
-    #a = a.replace('Team', 'SELECT * FROM Activities WHERE user_id = '+str(id))
+    userInput = userInput.replace('my_user_id', str(id))
 
 
     return (userInput)
@@ -129,10 +127,21 @@ def table(request):
     rawQueryString = inputScrub(rawQueryString, request.user.id)
 
     queryTuples = User.objects.raw(rawQueryString)
+    columns = queryTuples.columns
+
+    a = []
+
+    for r in queryTuples:
+        b = []
+        for c in columns:
+            b.append(getattr(r, c))
+        a.append(b)
+    print(a)
 
 
 
-    return render(request, 'log/table.html', {'data': queryTuples})
+
+    return render(request, 'log/table.html', {'data': a, 'columns': columns})
 
 ### Helper Functions ###
 def month_name_day(*t):
