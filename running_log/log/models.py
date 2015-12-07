@@ -67,7 +67,6 @@ class Races(models.Model):
 
 class Shoe(models.Model):
     user = models.ForeignKey(User, blank=True, null=True)
-    shoe_id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=256, blank=True, null=True)
     mileage = models.IntegerField(blank=True, null=True)
     expiration_mileage = models.IntegerField(blank=True, null=True)

@@ -1,7 +1,7 @@
 from random import randint
 def singleUserJsonData():
         print "["
-        for i in xrange(300):
+        for i in xrange(2000,2300):
             print """ {
                 "fields": {
                     "distance":""" + str(randint(0,15)) + """,

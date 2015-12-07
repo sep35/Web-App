@@ -2,14 +2,14 @@
 
 from django.shortcuts import render,render_to_response,redirect
 from django.http import HttpResponse
-from .forms import ActivityForm, UserForm, DateRangeForm
+from .forms import ActivityForm, DateRangeForm, ShoeForm, UserForm
 from .models import Activity, Team
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
 from django.contrib.auth import logout
 from django.contrib.auth.models import User
-from .tables import ActivityTable, top20Table
+from .tables import ActivityTable, top5Table
 from django_tables2   import RequestConfig
 from chartit import DataPool, Chart
 from django.core.serializers.json import DjangoJSONEncoder
@@ -63,23 +63,18 @@ def register(request):
 
 
 #### USER VIEWS ####
-
 @login_required(login_url="/login/")
-def profile(request):
-    context = RequestContext(request)
-
-    u = User.objects.get(username=request.user.username)
-    activities = Activity.objects.filter(user_id=request.user.id)
-
-    return render_to_response('log/profile.html', {'u': u, 'activities': activities}, context)
+def detail(request, x):
+    activity = Activity.objects.get(id=x)
+    return render(request, 'log/details.html', {'activity': activity})
 
 @login_required(login_url="/login/")
 def log(request):
-    activities = Activity.objects.filter(user_id=request.user.id)
-    TOP20 = User.objects.raw('''SELECT* FROM (SELECT SUM(distance) As distance, username, auth_user.id from auth_user LEFT OUTER JOIN Activity ON auth_user.id = Activity.user_id Where Activity.date BETWEEN (current_date- 6) AND current_date  Group By auth_user.id) AS B LIMIT 20;''')
+    activities = Activity.objects.filter(user_id=request.user.id).order_by('-date')
+    TOP5 = User.objects.raw('''SELECT* FROM (SELECT SUM(distance) As distance, username, auth_user.id from auth_user LEFT OUTER JOIN Activity ON auth_user.id = Activity.user_id Where Activity.date BETWEEN (current_date- 6) AND current_date  Group By auth_user.id) AS B LIMIT 5;''')
 
     table = ActivityTable(activities, prefix="1-")
-    table2 = top20Table(TOP20, prefix="2-")
+    table2 = top5Table(TOP5, prefix="2-")
 
     RequestConfig(request).configure(table)
     RequestConfig(request).configure(table2)
@@ -101,9 +96,27 @@ def new_activity(request):
     return render(request, 'log/activity_edit.html', {'form': form})
 
 @login_required(login_url="/login/")
-def detail(request, x):
-    activity = Activity.objects.get(id=x)
-    return render(request, 'log/details.html', {'activity': activity})
+def newShoe(request):
+    if request.method == "POST":
+        form = ShoeForm(request.POST)
+        if form.is_valid():
+            post = form.save(commit=False)
+            u = User.objects.get(id=request.user.id)
+            post.user = u
+            post.save()
+            return redirect('/profile/', pk=post.pk)
+    else:
+        form = ShoeForm()
+    return render(request, 'log/newShoe.html', {'form': form})
+
+@login_required(login_url="/login/")
+def profile(request):
+    context = RequestContext(request)
+
+    u = User.objects.get(username=request.user.username)
+    activities = Activity.objects.filter(user_id=request.user.id)
+
+    return render_to_response('log/profile.html', {'u': u, 'activities': activities}, context)
 
 #### Table for custom SQL queries ####
 def table(request):
@@ -129,9 +142,9 @@ def table(request):
 
 ### Helper Functions ###
 def month_name_day(*t):
-    names ={'1': 'Jan', '2': 'Feb', '3': 'Mar', '4': 'Apr',
-            '5': 'May', '6': 'Jun', '7': 'Jul', '8': 'Aug',
-            '9': 'Sep', '10': 'Oct', '11': 'Nov', '12': 'Dec'}
+    names ={'01': 'Jan', '02': 'Feb', '03': 'Mar', '04': 'Apr',
+            '05': 'May', '06': 'Jun', '07': 'Jul', '08': 'Aug',
+            '09': 'Sep', '10': 'Oct', '11': 'Nov', '12': 'Dec'}
     month_num = t[0][0]
     return (names[month_num], t[0][1])
 
@@ -141,12 +154,7 @@ def charts(request):
       data = Activity.objects.filter(user_id=request.user.id).order_by('-date')[:20]
       mileage_per_date = Activity.objects.filter(date__range=('2013-07-26','2016-07-26')).values('date').annotate(distance=Sum('distance'))
 
-      def month_name_day(*t):
-          names ={'01': 'Jan', '02': 'Feb', '03': 'Mar', '04': 'Apr',
-                  '05': 'May', '06': 'Jun', '07': 'Jul', '08': 'Aug',
-                  '09': 'Sep', '10': 'Oct', '11': 'Nov', '12': 'Dec'}
-          month_num = t[0][0]
-          return (names[month_num], t[0][1])
+
       runtype = \
           DataPool(
              series=

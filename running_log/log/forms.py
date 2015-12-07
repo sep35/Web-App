@@ -1,6 +1,6 @@
 # forms
 from django.contrib.auth.models import User
-from .models import Activity
+from .models import Activity, Shoe, Races, Workout
 from django.template import RequestContext
 from django.shortcuts import render,render_to_response
 from django.contrib.auth.models import User
@@ -35,6 +35,25 @@ class PsqlQueryForm(forms.ModelForm):
             raise forms.ValidationError("Possible database corrupting query")
         return
 
+class RacesForm(forms.ModelForm):
+    class Meta:
+        model = Races
+        fields = ('name','distance','time','place')
+    def save(self, commit=True):
+        Races = super(RacesForm, self).save(commit = False)
+        if commit:
+            Races.save()
+        return Races
+
+class ShoeForm(forms.ModelForm):
+    class Meta:
+        model = Shoe
+        fields = ('name','mileage','expiration_mileage')
+    def save(self, commit=True):
+        Shoe = super(ShoeForm, self).save(commit = False)
+        if commit:
+            Shoe.save()
+        return Shoe
 
 class UserForm(forms.ModelForm):
     password1 = forms.CharField(label="password",widget=forms.PasswordInput())
@@ -63,3 +82,13 @@ class UserForm(forms.ModelForm):
         if commit:
             user.save()
         return user
+
+class WorkoutForm(forms.ModelForm):
+    class Meta:
+        model = Workout
+        fields = ('distance','actual_time','goal_time','rest')
+    def save(self, commit=True):
+        Workout = super(WorkoutForm, self).save(commit = False)
+        if commit:
+            Workout.save()
+        return Workout

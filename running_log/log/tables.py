@@ -12,7 +12,7 @@ class ActivityTable(tables.Table):
         attrs = {'class': 'paleblue','width':'120%'}
         fields = ("date","activity_type", "distance", "time", "conditions", "location", "comments" )
 
-class top20Table(tables.Table):
+class top5Table(tables.Table):
 
     username = tables.Column()
     distance = tables.Column()

@@ -60,7 +60,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Shoe',
             fields=[
-                ('shoe_id', models.IntegerField(serialize=False, primary_key=True)),
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=256, null=True, blank=True)),
                 ('mileage', models.IntegerField(null=True, blank=True)),
                 ('expiration_mileage', models.IntegerField(null=True, blank=True)),
