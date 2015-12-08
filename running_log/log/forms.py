@@ -30,10 +30,10 @@ class PsqlQueryForm(forms.ModelForm):
 
     def safeQuery(self):
         a = re.compile(r'.*(DROP|INSERT|DELETE|;)', re.I)
-        if a.match(userInput):
+        if a.match(self.query):
             msg = "You wouldn't try an SQL injection attack on a bear."
             raise forms.ValidationError("Possible database corrupting query")
-        return
+        return self.query
 
 class RacesForm(forms.ModelForm):
     class Meta:

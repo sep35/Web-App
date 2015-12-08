@@ -119,9 +119,19 @@ def profile(request):
     return render_to_response('log/profile.html', {'u': u, 'activities': activities}, context)
 
 #### Table for custom SQL queries ####
+
+def queryRequest(request):
+    if request.method = 'POST':
+        form = PsqlQueryForm(request.POST)
+        if form.is_valid:
+            request.session['tableQuery'] = form.safeQuery
+            return redirect('/table/', pk=post.pk)
+    return render(request, 'log/query.html', {'form': form})
+
 def table(request):
 
-    rawQueryString = 'SELECT * FROM Activity'
+    rawQueryString = request.session['tableQuery']
+    del request.session['tableQuery']
 
     rawQueryString = rawQueryString.replace('my_user_id', str(id))
 
