@@ -17,11 +17,11 @@ urlpatterns = [
     url(r'^activity/(\d+)/$', views.detail, name='detail'),
     url(r'^activity/delete/(?P<id>\d+)/$', views.delete, name='delete_activity'),
     url(r'^charts/$', views.charts, name='charts'),
-    url(r'^table/$', views.table, name='table'),
     url(r'^shoe/new/$', views.newShoe, name='newShoe'),
     #### Team setup & logs ####
-    url(r'^teams/$', views.teams, name='teams')#,
+    url(r'^teams/$', views.teams, name='teams'),
 
     #### Public SQL data tables ####
-    #url(r'^publicTable/$', views.publicTable, name='publicTable')
+    url(r'^query/$', views.queryRequest, name='query'),
+    url(r'^table/$', views.table, name='table')
 ]

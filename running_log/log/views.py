@@ -2,8 +2,9 @@
 
 from django.shortcuts import render,render_to_response,redirect
 from django.http import HttpResponse, HttpResponseRedirect
-from .forms import ActivityForm, DateRangeForm, ShoeForm, UserForm
 from .models import Activity, Team, Races
+from django.http import HttpResponse
+from .forms import ActivityForm, DateRangeForm, ShoeForm, UserForm, PsqlQueryForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
@@ -141,9 +142,21 @@ def profile(request):
     return render_to_response('log/profile.html', {'u': u, 'activities': activities}, context)
 
 #### Table for custom SQL queries ####
+
+def queryRequest(request):
+    if request.method == 'POST':
+        form = PsqlQueryForm(request.POST)
+        if form.is_valid:
+            request.session['tableQuery'] = form.safeQuery
+            return redirect('/table/', pk=post.pk)
+    else:
+        form = PsqlQueryForm()
+    return render(request, 'log/query.html', {'form': form})
+
 def table(request):
 
-    rawQueryString = 'SELECT * FROM Activity'
+    rawQueryString = request.session['tableQuery']
+    del request.session['tableQuery']
 
     rawQueryString = rawQueryString.replace('my_user_id', str(id))
 
