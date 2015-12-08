@@ -2,7 +2,7 @@
 
 from django.shortcuts import render,render_to_response,redirect
 from django.http import HttpResponse
-from .forms import ActivityForm, DateRangeForm, ShoeForm, UserForm
+from .forms import ActivityForm, DateRangeForm, ShoeForm, UserForm, PsqlQueryForm
 from .models import Activity, Team
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
@@ -121,11 +121,13 @@ def profile(request):
 #### Table for custom SQL queries ####
 
 def queryRequest(request):
-    if request.method = 'POST':
+    if request.method == 'POST':
         form = PsqlQueryForm(request.POST)
         if form.is_valid:
             request.session['tableQuery'] = form.safeQuery
             return redirect('/table/', pk=post.pk)
+    else:
+        form = PsqlQueryForm()
     return render(request, 'log/query.html', {'form': form})
 
 def table(request):
