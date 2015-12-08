@@ -147,8 +147,8 @@ def queryRequest(request):
     if request.method == 'POST':
         form = PsqlQueryForm(request.POST)
         if form.is_valid:
-            request.session['tableQuery'] = form.safeQuery
-            return redirect('/table/', pk=post.pk)
+            request.session['tableQuery'] = form.safeQuery()
+            return redirect('/table/')
     else:
         form = PsqlQueryForm()
     return render(request, 'log/query.html', {'form': form})
@@ -169,9 +169,6 @@ def table(request):
         for c in columns:
             b.append(getattr(r, c))
         a.append(b)
-
-
-
 
     return render(request, 'log/table.html', {'data': a, 'columns': columns})
 

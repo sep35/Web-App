@@ -25,15 +25,15 @@ class DateRangeForm(forms.ModelForm):
     startDate = forms.DateField(label="Start Date")
     endDate = forms.DateField(label="End Date")
 
-class PsqlQueryForm(forms.ModelForm):
+class PsqlQueryForm(forms.Form):
     query = forms.CharField(label='Enter SQL query for evaluation')
 
     def safeQuery(self):
         a = re.compile(r'.*(DROP|INSERT|DELETE|;)', re.I)
-        if a.match(self.query):
+        if a.match(self.data['query']):
             msg = "You wouldn't try an SQL injection attack on a bear."
             raise forms.ValidationError("Possible database corrupting query")
-        return self.query
+        return self.data['query']
 
 class RaceActivityForm(forms.ModelForm):
     class Meta:
