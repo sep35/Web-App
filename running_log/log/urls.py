@@ -12,11 +12,11 @@ urlpatterns = [
     #### User Log ####
     url(r'^profile/$', views.profile, name='profile'),
     url(r'^log/$', views.log, name='log'),
-    url(r'^activity/new/$', views.new_activity, name='new_activity'),
+    url(r'^activity/new/$', views.newActivity, name='newActivity'),
     url(r'^activity/(\d+)/$', views.detail, name='detail'),
     url(r'^charts/$', views.charts, name='charts'),
     url(r'^table/$', views.table, name='table'),
-    url(r'^Shoe/new/$', views.newShoe, name='newShoe'),
+    url(r'^shoe/new/$', views.newShoe, name='newShoe'),
     #### Team setup & logs ####
     url(r'^teams/$', views.teams, name='teams')#,
 

@@ -20,8 +20,8 @@
   - `python manage.py migrate`
 5. Initialize date for database
   - `python manage.py loaddata users`
-  - `python manage.py loaddata activity`
-  - `python manage.py loaddata user_log_data`
+  - `python manage.py loaddata activities`
+    - Contains 300 entries for user with id = 1 and 2000 entires for the other users.
 6. Run the local host server of your VM
   - `python manage.py runserver`
   - port 8000 is the default, so if you open the VirtualBox VM you should just have to go to localhost:8000 on a web browser

@@ -82,7 +82,7 @@ def log(request):
     return render(request, 'log/activity_list.html', {'table': activities, 'table2':table2})
 
 @login_required(login_url="/login/")
-def new_activity(request):
+def newActivity(request):
     if request.method == "POST":
         form = ActivityForm(request.POST)
         if form.is_valid():
@@ -152,7 +152,7 @@ def month_name_day(*t):
 @login_required(login_url="/login/")
 def charts(request):
       data = Activity.objects.filter(user_id=request.user.id).order_by('-date')[:20]
-      mileage_per_date = Activity.objects.filter(date__range=('2013-07-26','2016-07-26')).values('date').annotate(distance=Sum('distance'))
+      mileage_per_date = Activity.objects.filter(user_id=request.user.id,date__range=('2013-07-26','2016-07-26')).values('date').annotate(distance=Sum('distance'))
 
 
       runtype = \
