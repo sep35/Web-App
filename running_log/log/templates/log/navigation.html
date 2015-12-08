@@ -5,6 +5,7 @@
         <div class="navbar">
         {% if user.is_authenticated %}
             <a href="/profile/">Profile</a>
+            <a href="/query/">SQL</a>
             <a href="/log/">Log</a>
             <a href="/activity/new/">Add Activity</a>
             <a href="/logout/">Logout</a>
@@ -13,6 +14,7 @@
         {% else %}
             <a href="/login/">Login</a> or
             <a href="/register/"><b>Sign up</b></a>
+            <a href="/query/">SQL</a>
         {% endif %}
         </div>
         <div class="navbar-side navbar-right"></div>
