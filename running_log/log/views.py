@@ -1,9 +1,9 @@
 # Create your views here.
 
 from django.shortcuts import render,render_to_response,redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from .forms import ActivityForm, DateRangeForm, ShoeForm, UserForm
-from .models import Activity, Team
+from .models import Activity, Team, Races
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
@@ -13,7 +13,10 @@ from .tables import ActivityTable, top5Table
 from django_tables2   import RequestConfig
 from chartit import DataPool, Chart
 from django.core.serializers.json import DjangoJSONEncoder
+from django.forms import inlineformset_factory
 from django.db.models import Sum
+from django.shortcuts import get_object_or_404
+from django.core.urlresolvers import reverse
 import json
 import time, datetime
 
@@ -27,7 +30,6 @@ def teams(request):
 
 
 #### REGISTRATION + SETUP VIEWS ####
-
 def home_page(request):
     activities = Activity.objects.all()
     return render(request, 'log/home_page.html', {'activities': activities})
@@ -64,6 +66,11 @@ def register(request):
 
 #### USER VIEWS ####
 @login_required(login_url="/login/")
+def delete(request, id):
+    activity = get_object_or_404(Activity, pk=id).delete()
+    return HttpResponseRedirect(reverse('log'))
+
+@login_required(login_url="/login/")
 def detail(request, x):
     activity = Activity.objects.get(id=x)
     return render(request, 'log/details.html', {'activity': activity})
@@ -94,6 +101,21 @@ def newActivity(request):
     else:
         form = ActivityForm()
     return render(request, 'log/activity_edit.html', {'form': form})
+
+@login_required(login_url="/login/")
+def newRaceActivity(request):
+
+    activity = Activity.objects.get(pk=1)
+    RaceInlineFormSet = inlineformset_factory(Activity, Races, exclude=())
+
+    if request.method == "POST":
+        formset = RaceInlineFormSet(request.POST, request.FILES, instance=activity)
+        if formset.is_valid():
+            formset.save()
+            return HttpResponseRedirect(activity.get_absolute_url())
+    else:
+        formset = RaceInlineFormSet(instance=activity)
+    return render(request,'log/race_activity.html', {'formset': formset})
 
 @login_required(login_url="/login/")
 def newShoe(request):

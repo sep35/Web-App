@@ -35,7 +35,7 @@ class PsqlQueryForm(forms.ModelForm):
             raise forms.ValidationError("Possible database corrupting query")
         return
 
-class RacesForm(forms.ModelForm):
+class RaceActivityForm(forms.ModelForm):
     class Meta:
         model = Races
         fields = ('name','distance','time','place')

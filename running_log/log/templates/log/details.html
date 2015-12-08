@@ -3,13 +3,17 @@
 
 {% endblock %}
 {% block body %}
+        <div class=email>
+            <a float=right href="/activity/delete/{{activity.id}}/">| Delete |</a>
+        </div>
         <div>
               <h3>Date: {{ activity.date }}</h2>
-              <p class="rcorners">{{ activity.activity_type }}</p>
+              <p>{{ activity.activity_type }}</p>
               <p>Distance: {{ activity.distance }}</p>
               <p>Time: {{ activity.time }}</p>
               <p>Weather: {{ activity.weather }}</p>
               <p>Location: {{ activity.location }}</p>
               <p>Comments: {{ activity.comments }}</p>
+
         </div>
 {% endblock %}
