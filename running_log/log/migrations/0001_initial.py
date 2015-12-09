@@ -35,7 +35,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=200)),
                 ('picture', models.DateTimeField()),
-                ('user', models.ForeignKey(blank=True, to=settings.AUTH_USER_MODEL, null=True)),
+                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
             ],
             options={
                 'db_table': 'Profile',
@@ -46,11 +46,11 @@ class Migration(migrations.Migration):
             name='Races',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('name', models.CharField(max_length=256, null=True, blank=True)),
+                ('name', models.CharField(max_length=128, null=True, blank=True)),
                 ('distance', models.IntegerField(null=True, blank=True)),
                 ('time', models.IntegerField(null=True, blank=True)),
-                ('place', models.CharField(max_length=256, null=True, blank=True)),
-                ('activity_id', models.ForeignKey(blank=True, to='log.Activity', null=True)),
+                ('place', models.CharField(max_length=64, null=True, blank=True)),
+                ('activity_id', models.ForeignKey(to='log.Activity')),
             ],
             options={
                 'db_table': 'races',
@@ -61,10 +61,10 @@ class Migration(migrations.Migration):
             name='Shoe',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('name', models.CharField(max_length=256, null=True, blank=True)),
+                ('name', models.CharField(max_length=32, null=True, blank=True)),
                 ('mileage', models.IntegerField(null=True, blank=True)),
                 ('expiration_mileage', models.IntegerField(null=True, blank=True)),
-                ('user', models.ForeignKey(blank=True, to=settings.AUTH_USER_MODEL, null=True)),
+                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
             ],
             options={
                 'db_table': 'shoe',
@@ -83,14 +83,22 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.CreateModel(
+            name='TeamMember',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('team', models.ForeignKey(to='log.Team')),
+                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
+            ],
+        ),
+        migrations.CreateModel(
             name='Workout',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('interval_num', models.IntegerField()),
                 ('distance', models.IntegerField(null=True, blank=True)),
-                ('actual_time', models.CharField(max_length=256, null=True, blank=True)),
-                ('goal_time', models.CharField(max_length=256, null=True, blank=True)),
-                ('rest', models.CharField(max_length=256, null=True, blank=True)),
+                ('actual_time', models.CharField(max_length=16, null=True, blank=True)),
+                ('goal_time', models.CharField(max_length=16, null=True, blank=True)),
+                ('rest', models.CharField(max_length=16, null=True, blank=True)),
                 ('activity_id', models.ForeignKey(to='log.Activity')),
             ],
             options={

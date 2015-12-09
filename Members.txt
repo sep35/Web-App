@@ -1,0 +1,17 @@
+Members
+Aaron Liberatore
+- Wrote the E/R diagram
+- Wrote up the progress reports
+- Built much of the website using Django, including charts and tables
+- Worked on the sql database, by building relevant models + packages(coding/testing)
+- Created the fixtures containing the sample data sets
+- Worked on aesthetics of the website
+Weston Carvalho
+- Designed the relational schema
+- Wrote the final report
+- Constructed many of the pages including the self-query page
+- Worked on the sql database (coding/testing)
+- Worked off of Aaron's start on Django
+- Worked on aesthetics of the website
+Steven Pierre
+- Wrote scripts for the create/load/destroy sample data sets

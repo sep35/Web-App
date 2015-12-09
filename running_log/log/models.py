@@ -38,7 +38,7 @@ class Activity(models.Model):
         db_table = 'activity'
 
 class Profile(models.Model):
-    user = models.ForeignKey(User, blank=True, null=True)
+    user = models.ForeignKey(User)
     name = models.CharField(max_length=200)
     picture = models.DateTimeField()
 
@@ -51,11 +51,11 @@ class Profile(models.Model):
 
 
 class Races(models.Model):
-    activity_id = models.ForeignKey(Activity, blank=True, null=True)
-    name = models.CharField(max_length=256, blank=True, null=True)
+    activity_id = models.ForeignKey(Activity)
+    name = models.CharField(max_length=128, blank=True, null=True)
     distance = models.IntegerField(blank=True, null=True)
     time = models.IntegerField(blank=True, null=True)
-    place = models.CharField(max_length=256, blank=True, null=True)
+    place = models.CharField(max_length=64, blank=True, null=True)
 
     def __str__(self):
         return self.name
@@ -66,8 +66,8 @@ class Races(models.Model):
 
 
 class Shoe(models.Model):
-    user = models.ForeignKey(User, blank=True, null=True)
-    name = models.CharField(max_length=256, blank=True, null=True)
+    user = models.ForeignKey(User)
+    name = models.CharField(max_length=32, blank=True, null=True)
     mileage = models.IntegerField(blank=True, null=True)
     expiration_mileage = models.IntegerField(blank=True, null=True)
 
@@ -89,15 +89,17 @@ class Team(models.Model):
         managed = True
         db_table = 'team'
 
-
+class TeamMember(models.Model):
+    user = models.ForeignKey(User)
+    team = models.ForeignKey(Team)
 
 class Workout(models.Model):
     activity_id = models.ForeignKey(Activity)
     interval_num = models.IntegerField()
     distance = models.IntegerField(blank=True, null=True)
-    actual_time = models.CharField(max_length=256, blank=True, null=True)
-    goal_time = models.CharField(max_length=256, blank=True, null=True)
-    rest = models.CharField(max_length=256, blank=True, null=True)
+    actual_time = models.CharField(max_length=16, blank=True, null=True)
+    goal_time = models.CharField(max_length=16, blank=True, null=True)
+    rest = models.CharField(max_length=16, blank=True, null=True)
 
     class Meta:
         managed = True

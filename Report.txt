@@ -1,0 +1,47 @@
+Our application, Runit, is a website that lets users log their daily physical
+activity. Users can make detailed descriptions of their activities, recording
+qualities such as conditions, what shoes they wore, and location so that they
+this information to improve their training routine or simply see their own
+progress. We used Python's Django to implement Runit with postgreSQL database.
+
+There were a few thing that our database is prepared to handle that our website
+does not yet support, namely Teams, Races, and Workouts. Races and Workouts are
+additional tables with each tuple therein linked to an instance of Activity,
+providing additional space for information relevant to a race or an interval of
+a workout, respectively. These two fields required creating some sort of optional
+subform, which we did not quite figure out. Teams would allow users to form groups
+with other users they know and more easily view each other's logs.
+
+The only real assumption about the data provided by users is that on the 'query'
+page, the user either provides a valid SQL query or tries to use SQL injection.
+If the "query" they provide is just text, the 'table' page will have an error on
+redirect. In other places where the user could provide data that doesn't make
+sense, the forms enforce that the data is the correct type.
+
+Tables:
+The first entry is primary key, which Django took care of for us. Anything else
+of the form xxx_id is a foreign key.
+  Activity(activity_id, date, user_id, distance, time, shoe, activity_type,
+              condition, location, comments)
+
+  Profile(profile_id, user_id, name, picture)
+  Our website currently doesn't have a place to add or display profile pictures.
+
+  Races(race_id, activity_id, name, distance, time, place)
+
+  Shoe(shoe_id, user_id, expiration_mileage, mileage)
+  We were planning on implementing a mileage counter for each pair of shoes, but
+    didn't have enough time.
+
+  Team(team_id, name)
+
+  Workout(interval_id, activity_id, interval_num, distance, goal_time,
+              actual_time, rest)
+
+  Additionally, Django created a few tables itself to manage users, groups, and permission.
+  These include the User table (shown below), which we actively use and a group table, which
+  was going to manage our team creations
+  
+  User(user_id, username, first_name, last_name, is_active, is_superuser,
+              is_staff, last_login, groups, user_permissions, password, email,
+              date_joined)

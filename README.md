@@ -9,7 +9,7 @@
     -from django.utils import simplejson
     +import simplejson
     ```
-    
+
   - Also we have to make these changes, in order to handle datetime types for the charts
     `https://github.com/bastir85/django-chartit/commit/aa47dc1d5f7e13e72c0f96fa22e61788b89afc4b`
 
@@ -21,10 +21,14 @@
 4. Update and migrate the app files
   - `python manage.py makemigrations log`
   - `python manage.py migrate`
-5. Initialize date for database
+5. Run the local host server of your VM
+  - `python manage.py runserver`
+  - Then, create a user so the data loaded in the next step is accepted.
+  - port 8000 is the default, so if you open the VirtualBox VM you should just have to go to localhost:8000 on a web browser
+  - Stop running the server (control+C)
+6. Initialize date for database
   - `python manage.py loaddata users`
   - `python manage.py loaddata activities`
     - Contains 300 entries for user with id = 1 and 2000 entires for the other users.
-6. Run the local host server of your VM
+7. Run the local host server of your VM
   - `python manage.py runserver`
-  - port 8000 is the default, so if you open the VirtualBox VM you should just have to go to localhost:8000 on a web browser
